@@ -6,9 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ProjetoEFCRUD
@@ -26,6 +29,31 @@ namespace ProjetoEFCRUD
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            { 
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "",
+                    Description = "",
+                    TermsOfService = new Uri("https://github.com/serafim5511/"),
+                    Contact = new OpenApiContact()
+                    {
+                        Name = "",
+                        Email = "",
+                        Url = new Uri("https://github.com/serafim5511/")
+                    },
+                    License = new OpenApiLicense()
+                    {
+                        Name = "",
+                        Url = new Uri("https://github.com/serafim5511/")
+                    }
+                });
+                //var arquivoSwagger = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //var diretorio = Path.Combine(AppContext.BaseDirectory, arquivoSwagger);
+                //c.IncludeXmlComments(diretorio);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +63,10 @@ namespace ProjetoEFCRUD
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(ui => ui.SwaggerEndpoint("./v1/swagger.json", "Projeto EF CRUD"));
 
             app.UseHttpsRedirection();
 
