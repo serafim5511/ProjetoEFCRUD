@@ -1,0 +1,30 @@
+- Instalar swagger 
+	1.Gerenciador pacotess nugget buscar por Swahbuckle.AspNetCore
+	2.Add na Configure da startup app.UseSwagger();
+		2.1. Add url e o nome na Configure app.UseSwaggerUI(ui => ui.SwaggerEndpoint("./v1/swagger.json", "Projeto EF CRUD"));
+	3.Na ConfigureServices vai passar os dados basico da documentação services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "",
+                    Description = "",
+                    TermsOfService = new Uri("https://github.com/serafim5511/"),
+                    Contact = new OpenApiContact()
+                    {
+                        Name = "",
+                        Email = "",
+                        Url = new Uri("https://github.com/serafim5511/")
+                    },
+                    License = new OpenApiLicense()
+                    {
+                        Name = "",
+                        Url = new Uri("https://github.com/serafim5511/")
+                    }
+                });
+                var arquivoSwagger = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var diretorio = Path.Combine(AppContext.BaseDirectory, arquivoSwagger);
+                c.IncludeXmlComments(diretorio);
+            });
+	4.Na pasta Properties/ launchSettings.json procurar por launchUrl e atribuir o valor swagger
+	5. *Opcional , gerar o arquivo xml da documentação , botao direito no projeto, propiedades , Criar/Saida marcar como check Gerar um arquivo contendo a documentação da API
