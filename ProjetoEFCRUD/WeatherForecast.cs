@@ -1,6 +1,6 @@
 using System;
 
-namespace ProjetoEFCRUD
+namespace API
 {
     public class WeatherForecast
     {

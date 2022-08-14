@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ProjetoEFCRUD": {
+    "API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
