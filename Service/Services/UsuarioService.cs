@@ -27,9 +27,9 @@ namespace Service.Services
         {
             return await _usuarioRepository.PaginacaoUsuario(pagination);
         }
-        public IEnumerable<Usuario> PaginacaoUsuarioProc(Pagination pagination)
+        public async Task<IEnumerable<Usuario>> PaginacaoUsuarioProc(Pagination pagination)
         {
-            return _usuarioRepository.PaginacaoUsuarioProc(pagination);
+            return await _usuarioRepository.PaginacaoUsuarioProc(pagination);
         }
     }
 }

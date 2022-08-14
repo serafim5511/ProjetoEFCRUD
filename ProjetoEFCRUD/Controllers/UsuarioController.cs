@@ -71,9 +71,9 @@ namespace API.Controllers
         [Route("paginacaousuarioProc")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Response<List<Usuario>>), Description = "")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, Type = typeof(Error), Description = "")]
-        public IActionResult PaginacaoUsuarioProc([FromQuery] Pagination pagination)
+        public async Task<IActionResult> PaginacaoUsuarioProc([FromQuery] Pagination pagination)
         {
-            return Ok(new Response<IEnumerable<Usuario>>(_usuarioService.PaginacaoUsuarioProc(pagination)));
+            return Ok(new Response<IEnumerable<Usuario>>(await _usuarioService.PaginacaoUsuarioProc(pagination)));
         }
     }
 }

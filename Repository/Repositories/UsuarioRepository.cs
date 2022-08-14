@@ -36,48 +36,62 @@ namespace Repository.Repositories
             return await _data.Usuario.FromSqlRaw(queryFormat).ToListAsync();
 
         }
-        public IEnumerable<Usuario> PaginacaoUsuarioProc(Pagination pagination)
+        public async Task<IEnumerable<Usuario>> PaginacaoUsuarioProc(Pagination pagination)
         {
             pagination.ValidatePage();
 
-            var command = _data.Database.GetDbConnection().CreateCommand();
-            command.CommandText = "PR_Pagination";
-            command.CommandType = CommandType.StoredProcedure;
-
-            var param = new List<SqlParameter>()
-                    {
-                        new SqlParameter()
-                        {
-                            Value = pagination.Page,
-                            ParameterName = "page"
-                        },
-                        new SqlParameter()
-                        {
-                            Value = pagination.PageSize,
-                            ParameterName = "pageSize"
-                        }
-                    };
-            param.ForEach(x => command.Parameters.Add(x));
-
-            var list = new List<Usuario>();
-
-            _data.Database.OpenConnection();
-
-            using (var result = command.ExecuteReader())
+            return await _data.Usuario.FromSqlRaw("PR_Pagination @page,@pageSize", 
+            new SqlParameter()
             {
-                while (result.Read())
-                {
-                    list.Add(new Usuario()
-                    {
-                        Id = result.GetInt32(0),
-                        Nome = result.GetString(1),
-                        DtNasc = result.GetDateTime(2)
-                    });
-                }
+                Value = pagination.Page,
+                ParameterName = "@page"
+            },
+            new SqlParameter()
+            {
+                Value = pagination.PageSize,
+                ParameterName = "@pageSize"
             }
-            _data.Database.CloseConnection();
+                ).ToListAsync();
+            //var command = _data.Database.GetDbConnection().CreateCommand();
+            //command.CommandText = "PR_Pagination";
+            //command.CommandType = CommandType.StoredProcedure;
 
-            return list;
+            //var param = new List<SqlParameter>()
+            //        {
+            //            new SqlParameter()
+            //            {
+            //                Value = pagination.Page,
+            //                ParameterName = "page"
+            //            },
+            //            new SqlParameter()
+            //            {
+            //                Value = pagination.PageSize,
+            //                ParameterName = "pageSize"
+            //            }
+            //        };
+
+
+            //param.ForEach(x => command.Parameters.Add(x));
+
+            //var list = new List<Usuario>();
+
+            //_data.Database.OpenConnection();
+
+            //using (var result = command.ExecuteReader())
+            //{
+            //    while (result.Read())
+            //    {
+            //        list.Add(new Usuario()
+            //        {
+            //            Id = result.GetInt32(0),
+            //            Nome = result.GetString(1),
+            //            DtNasc = result.GetDateTime(2)
+            //        });
+            //    }
+            //}
+            //_data.Database.CloseConnection();
+
+            //return list;
 
         }
     }

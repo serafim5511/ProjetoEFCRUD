@@ -11,6 +11,6 @@ namespace Domain.Interfaces.Repositories
     {
         Task<IEnumerable<Usuario>> OrdernarUsuario();
         Task<IEnumerable<Usuario>> PaginacaoUsuario(Pagination pagination);
-        IEnumerable<Usuario> PaginacaoUsuarioProc(Pagination pagination);
+        Task<IEnumerable<Usuario>> PaginacaoUsuarioProc(Pagination pagination);
     }
 }

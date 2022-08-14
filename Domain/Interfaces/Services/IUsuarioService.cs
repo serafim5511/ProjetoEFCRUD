@@ -10,8 +10,8 @@ namespace Domain.Interfaces.Services
     public interface IUsuarioService : IServices<Usuario>
     {
         Task<IEnumerable<Usuario>> OrdernarUsuario(); 
-        Task<IEnumerable<Usuario>> PaginacaoUsuario(Pagination pagination); 
-        IEnumerable<Usuario> PaginacaoUsuarioProc(Pagination pagination);
+        Task<IEnumerable<Usuario>> PaginacaoUsuario(Pagination pagination);
+        Task<IEnumerable<Usuario>> PaginacaoUsuarioProc(Pagination pagination);
 
 
     }
