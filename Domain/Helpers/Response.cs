@@ -9,7 +9,7 @@ namespace Domain.Helpers
         public Response()
         {
         }
-        public Response(T data, string message = null, bool sucesso = true)
+        public Response(T data, string message = "", bool sucesso = true)
         {
             Sucesso = sucesso;
             Mensagem = message;

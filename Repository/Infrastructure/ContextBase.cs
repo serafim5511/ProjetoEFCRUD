@@ -15,6 +15,7 @@ namespace Repository.Infrastructure
         }
         public ContextBase(DbContextOptions<ContextBase> options) : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Usuario> Usuario { get; set; }

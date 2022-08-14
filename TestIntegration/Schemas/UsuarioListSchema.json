@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "nome": {
+              "type": "string"
+            },
+            "dtNasc": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "nome",
+            "dtNasc"
+          ]
+        }
+      ]
+    },
+    "sucesso": {
+      "type": "boolean"
+    },
+    "mensagem": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "data",
+    "sucesso",
+    "mensagem"
+  ]
+}

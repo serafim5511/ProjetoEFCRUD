@@ -13,7 +13,7 @@ namespace Service.Services
     {
         private readonly IUsuarioRepository _usuarioRepository;
 
-        public UsuarioService(IRepository<Usuario> repository, IUsuarioRepository usuarioRepository) : base(repository)
+        public UsuarioService(IUsuarioRepository usuarioRepository) : base(usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
         }

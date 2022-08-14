@@ -23,7 +23,7 @@ namespace Domain.Helpers
             {
                 Page = 1;
             }
-            Page = Page--;
+            Page = Page-1;
         }
     }
 }
