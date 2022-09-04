@@ -2,9 +2,8 @@
 
 namespace Domain.Models
 {
-    public class Usuario
+    public class Usuario : Base 
     {
-        public int Id { get; set; }
         public string Nome { get; set; }
         public DateTime DtNasc { get; set; }
     }
