@@ -1,6 +1,10 @@
-﻿using Domain.Helpers;
+﻿using API.Models;
+using API.Token;
+using Domain.Helpers;
 using Domain.Interfaces.Services;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
@@ -21,10 +25,13 @@ namespace API.Controllers
             _usuarioService = UsuarioService;
         }
 
-        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [HttpPost]
         [Route("")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Response<List<Usuario>>), Description = "")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, Type = typeof(Error), Description = "")]
+        [SwaggerResponse((int)HttpStatusCode.Unauthorized, Type = typeof(Error), Description = "testeee")]
         public async Task<IActionResult> Get()
         {         
             return Ok( new Response<IEnumerable<Usuario>>(await _usuarioService.List()));
@@ -74,6 +81,42 @@ namespace API.Controllers
         public async Task<IActionResult> PaginacaoUsuarioProc([FromQuery] Pagination pagination)
         {
             return Ok(new Response<IEnumerable<Usuario>>(await _usuarioService.PaginacaoUsuarioProc(pagination)));
+        }
+
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [HttpPost("/api/CriarToken")]
+        public async Task<IActionResult> CriarTokenIdentity([FromBody] Login login)
+        {
+            if (string.IsNullOrWhiteSpace(login.email) || string.IsNullOrWhiteSpace(login.senha))
+            {
+                return Unauthorized();
+            }
+
+            var resultado = await
+                _usuarioService.PasswordSignInAsync(login.email, login.senha);
+
+            if (resultado)
+            {
+                // Recupera Usuário Logado
+                var userCurrent = await _usuarioService.GetUsuarioAuthenticate(login.email, login.senha);
+                var idUsuario = userCurrent.Id;
+
+                var token = new TokenJWTBuilder()
+                    .AddSecurityKey(JwtSecurityKey.Create("Secret_Key-12345678"))
+                    .AddSubject("Empresa - Canal Dev Net Core")
+                    .AddIssuer("Teste.Securiry.Bearer")
+                    .AddAudience("Teste.Securiry.Bearer")
+                    .AddClaim("idUsuario", idUsuario.ToString())
+                    .AddExpiry(5)
+                    .Builder();
+
+                return Ok(token.value);
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
     }
 }

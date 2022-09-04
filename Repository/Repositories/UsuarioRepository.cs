@@ -26,7 +26,6 @@ namespace Repository.Repositories
         public async Task<IEnumerable<Usuario>> OrdernarUsuario()
         {
             return await _data.Usuario.AsNoTracking().OrderByDescending(x => x.DtNasc).ToListAsync();
-
         }
         public async Task<IEnumerable<Usuario>> PaginacaoUsuario(Pagination pagination)
         {
@@ -93,6 +92,15 @@ namespace Repository.Repositories
 
             //return list;
 
+        }
+
+        public async Task<bool> PasswordSignInAsync(string email, string senha)
+        {
+            return await _data.Usuario.AsNoTracking().Where(x => x.Email == email && x.Password == senha).AnyAsync();
+        }
+        public async Task<Usuario> GetUsuarioAuthenticate (string email, string senha)
+        {
+            return await _data.Usuario.AsNoTracking().Where(x => x.Email == email && x.Password == senha).SingleOrDefaultAsync();
         }
     }
 }

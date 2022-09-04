@@ -12,7 +12,7 @@ namespace Domain.Interfaces.Services
         Task<IEnumerable<Usuario>> OrdernarUsuario(); 
         Task<IEnumerable<Usuario>> PaginacaoUsuario(Pagination pagination);
         Task<IEnumerable<Usuario>> PaginacaoUsuarioProc(Pagination pagination);
-
-
+        Task<bool> PasswordSignInAsync(string email,string senha);
+        Task<Usuario> GetUsuarioAuthenticate(string email, string senha);
     }
 }

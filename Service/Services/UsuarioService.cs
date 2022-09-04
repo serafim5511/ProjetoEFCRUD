@@ -31,5 +31,15 @@ namespace Service.Services
         {
             return await _usuarioRepository.PaginacaoUsuarioProc(pagination);
         }
+
+        public async Task<bool> PasswordSignInAsync(string email, string senha)
+        {
+            return await _usuarioRepository.PasswordSignInAsync(email, senha);
+        }
+        public async Task<Usuario> GetUsuarioAuthenticate(string email, string senha)
+        {
+            return await _usuarioRepository.GetUsuarioAuthenticate(email, senha);
+        }
+        
     }
 }

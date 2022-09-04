@@ -25,6 +25,8 @@ namespace API
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
+
         public Startup()
         {
         }
@@ -61,6 +63,9 @@ namespace API
                 //var diretorio = Path.Combine(AppContext.BaseDirectory, arquivoSwagger);
                 //c.IncludeXmlComments(diretorio);
             });
+
+            services.AddDbContext<ContextBase>(options => options.UseSqlServer(
+                    configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
